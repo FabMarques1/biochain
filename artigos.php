@@ -29,6 +29,16 @@ switch($theme){
     break;
 }
 
+// Login
+
+if(isset($_SESSION['id'])){
+
+} else{
+    $user_photo = "frontend/assets/icons/incognito.svg";
+    $user_name = "Anônimo";
+    $user_profile = "@anonimo";
+}
+
 ?>
 
 
@@ -75,20 +85,24 @@ switch($theme){
                         </button>
                     </div>
                 </form>
-                <!--
                 <div class="dropdown ms-3">
                     <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=50&h=50&fit=crop&crop=face" alt="Usuário" class="rounded-circle me-2" style="width: 38px; height: 38px; object-fit: cover; border: 2px solid var(--verde-mato);">
-                        <span class="d-none d-lg-inline" style="color: var(--texto-principal);">Nome de Usuário</span>
+                        <img src="<?php echo $user_photo; ?>" alt="Usuário" class="rounded-circle me-2" style="width: 38px; height: 38px; color: white; object-fit: cover; border: 2px solid var(--verde-mato);">
+                        <span class="d-none d-lg-inline" style="color: var(--texto-principal);"><?php echo $user_name; ?></span>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end" style="background-color: var(--fundo-card); border: 1px solid var(--borda-sutil);">
-                        <li><a class="dropdown-item" href="#" style="color: var(--texto-principal);"><i class="bi bi-person me-2"></i>Meu Perfil</a></li>
-                        <li><a class="dropdown-item" href="#" style="color: var(--texto-principal);"><i class="bi bi-gear me-2"></i>Configurações</a></li>
-                        <li><hr class="dropdown-divider" style="border-color: var(--borda-sutil);"></li>
-                        <li><a class="dropdown-item" href="#" style="color: #dc3545;"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
-                    </ul>
+                    <?php if(isset($_SESSION['id'])): ?>
+                        <ul class="dropdown-menu dropdown-menu-end" style="background-color: var(--fundo-card); border: 1px solid var(--borda-sutil);">
+                            <li><a class="dropdown-item" href="#" style="color: var(--texto-principal);"><i class="bi bi-person me-2"></i>Meu Perfil</a></li>
+                            <li><a class="dropdown-item" href="#" style="color: var(--texto-principal);"><i class="bi bi-gear me-2"></i>Configurações</a></li>
+                            <li><hr class="dropdown-divider" style="border-color: var(--borda-sutil);"></li>
+                            <li><a class="dropdown-item" href="#" style="color: #dc3545;"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+                        </ul>
+                    <?php else: ?>
+                        <ul class="dropdown-menu dropdown-menu-end" style="background-color: var(--fundo-card); border: 1px solid var(--borda-sutil);">
+                            <li><a class="dropdown-item" href="login.php" style="color: var(--texto-principal);"><i class="bi bi-person me-2"></i>Fazer login</a></li>
+                        </ul>
+                    <?php endif; ?>
                 </div>
-                -->
             </div>
         </div>
     </nav>
@@ -103,15 +117,17 @@ switch($theme){
         </div>
         <div class="offcanvas-body p-0">
             <div class="p-3">
-                <!--
                 <div class="d-flex align-items-center mb-3 p-2 rounded" style="background-color: rgba(45, 90, 39, 0.15); border: 1px solid var(--borda-sutil);">
-                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=50&h=50&fit=crop&crop=face" alt="Usuário" class="rounded-circle me-2" style="width: 42px; height: 42px; object-fit: cover; border: 2px solid var(--verde-mato);">
+                    <img src="<?php echo $user_photo; ?>" alt="Usuário" class="rounded-circle me-2" style="width: 42px; height: 42px; object-fit: cover; border: 2px solid var(--verde-mato);">
                     <div>
-                        <span class="d-block fw-semibold" style="color: var(--texto-principal);">João Silva</span>
-                        <small style="color: var(--texto-secundario);">@joaosilva</small>
+                        <?php if(isset($_SESSION['id'])): ?>
+                            <span class="d-block fw-semibold" style="color: var(--texto-principal);"><?php echo $user_name; ?></span>
+                            <small style="color: var(--texto-secundario);"><?php echo $user_profile; ?></small>
+                        <?php else: ?>
+                            <a href="login.php"><span class="d-block fw-semibold" style="color: var(--texto-principal);">Fazer login</span></a>
+                        <?php endif; ?>
                     </div>
                 </div>
-                -->
                 <input class="form-control mb-3" type="search" placeholder="Buscar na wiki...">
             </div>
             <p class="sidebar-title">Categorias</p>
