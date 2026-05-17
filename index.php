@@ -174,7 +174,7 @@ if(isset($_SESSION['id'])){
                                     <div class="carousel-inner rounded-4 overflow-hidden" style="border: 3px solid var(--verde-mato);">
                                         <div class="carousel-item active">
                                             <a href="#artigo-1-destaque">
-                                                <img src="frontend/assets/img/cadeia-alimentar.png" class="d-block w-100" alt="Cadeia Alimentar" style="height: 280px; object-fit: cover;">
+                                                <img src="frontend/assets/img/cadeia-alimentar.png" class="d-block w-100 opacity-50" alt="Cadeia Alimentar" style="height: 280px; object-fit: cover;">
                                             </a>
                                                 <div class="carousel-caption" style="background: linear-gradient(transparent, rgba(13, 13, 13, 0.9)); bottom: 0; left: 0; right: 0; padding: 2rem 1rem 1rem;">
                                                     <h5 style="color: var(--verde-destaque-2);">Cadeia Alimentar</h5>
@@ -183,7 +183,7 @@ if(isset($_SESSION['id'])){
                                         </div>
                                         <div class="carousel-item">
                                             <a href="#artigo-2-destaque">
-                                                <img src="frontend/assets/img/teia-alimentar.png" class="d-block w-100" alt="Teia Alimentar" style="height: 280px; object-fit: cover;">
+                                                <img src="frontend/assets/img/teia-alimentar.png" class="d-block w-100 opacity-50" alt="Teia Alimentar" style="height: 280px; object-fit: cover;">
                                                 <div class="carousel-caption" style="background: linear-gradient(transparent, rgba(13, 13, 13, 0.9)); bottom: 0; left: 0; right: 0; padding: 2rem 1rem 1rem;">
                                                     <h5 style="color: var(--verde-destaque-2);">Teia Alimentar</h5>
                                                 </div>

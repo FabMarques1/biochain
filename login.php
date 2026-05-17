@@ -1,3 +1,9 @@
+<?php
+
+require "backend/config/database.php";
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR" data-bs-theme="dark">
 <head>
@@ -6,7 +12,7 @@
     <title>BioAlumnus - Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="frontend/styles/login.css">
+    <link rel="stylesheet" href="frontend/styles/login.css?">
     <link rel="icon" href="frontend/assets/icons/icon.png">
 </head>
 <body>
@@ -29,23 +35,25 @@
                 </div>
                 <h1 class="login-title">Entrar na sua conta</h1>
                 <p class="login-subtitle">Preencha seus dados para acessar a plataforma</p>
-                <form>
+                <form onsubmit="return validateLogin()" novalidate>
                     <div class="mb-3">
-                        <label for="loginUser" class="form-label">Usuário ou E-mail</label>
+                        <label for="user" class="form-label">Usuário ou E-mail</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-person"></i></span>
-                            <input type="text" class="form-control" id="loginUser" placeholder="Digite seu usuário ou e-mail" required>
+                            <input type="text" class="form-control" id="user" placeholder="Digite seu usuário ou e-mail" maxlength="255" required>
                         </div>
+                        <div class="char-counter"><span id="userCount">0</span>/255 caracteres</div>
                     </div>
                     <div class="mb-3">
-                        <label for="loginPassword" class="form-label">Senha</label>
+                        <label for="password" class="form-label">Senha</label>
                         <div class="input-group position-relative">
                             <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                            <input type="password" class="form-control pe-5" id="loginPassword" placeholder="Digite sua senha" required>
+                            <input type="password" class="form-control pe-5" id="password" placeholder="Digite sua senha" maxlength="45" required>
                             <button type="button" class="password-toggle" onclick="togglePassword()">
                                 <i class="bi bi-eye" id="toggleIcon"></i>
                             </button>
                         </div>
+                        <div class="char-counter"><span id="passwordCount">0</span>/45 caracteres</div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <div class="form-check">
@@ -62,7 +70,7 @@
                         <i class="bi bi-google me-2"></i>Entrar com Google
                     </button>
                     <p class="text-center mb-0" style="color: var(--texto-secundario); font-size: 0.9rem;">
-                        Ainda não tem conta? <a href="#" class="link-verde">Cadastre-se gratuitamente</a>
+                        Ainda não tem conta? <a href="registro.php" class="link-verde">Cadastre-se gratuitamente</a>
                     </p>
                 </form>
             </div>
@@ -72,9 +80,11 @@
         <p>&copy; 2026 <a href="index.php">BioAlumnus</a> - Todos os direitos reservados</p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="backend/assets/js/auth.js?"></script>
     <script>
         function togglePassword() {
-            const input = document.getElementById('loginPassword');
+            const input = document.getElementById('password');
             const icon = document.getElementById('toggleIcon');
             if (input.type === 'password') {
                 input.type = 'text';
@@ -86,6 +96,14 @@
                 icon.classList.add('bi-eye');
             }
         }
+
+        document.getElementById('user').addEventListener('input', function() {
+            document.getElementById('userCount').textContent = this.value.length;
+        });
+
+        document.getElementById('password').addEventListener('input', function() {
+            document.getElementById('passwordCount').textContent = this.value.length;
+        });
     </script>
 </body>
 </html>
