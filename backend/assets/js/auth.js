@@ -40,10 +40,10 @@ function errorMsg(msg){
 function validateLogin(){
 
     if (!user.value) {
-        return applyError(user, "Insira seu nome de usuário ou email.");
+        return applyError(user, "Insira seu nome de usuário.");
     } 
     else if(user.value.length <= 7) {
-        return applyError(user, "Seu nome de usuário ou email deve ter no mínimo 8 caracteres.");
+        return applyError(user, "Seu nome de usuário deve ter no mínimo 8 caracteres.");
     }  
     else if(!password.value) {
         return applyError(password, "Insira sua senha.");
@@ -69,7 +69,7 @@ function validateRegister(){
     else if(user.value.length <= 7) {
         return applyError(user, "Seu nome de usuário ou email deve ter no mínimo 8 caracteres.");
     }  
-    
+
     if (!email.value) {
         return applyError(email, "Insira seu email.");
     }
