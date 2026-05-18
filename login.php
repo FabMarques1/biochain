@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require "backend/config/database.php";
 
 ?>
@@ -104,6 +106,27 @@ require "backend/config/database.php";
         document.getElementById('password').addEventListener('input', function() {
             document.getElementById('passwordCount').textContent = this.value.length;
         });
+    </script>
+    <script>
+        <?php if(isset($_SESSION['success'])): ?>
+            Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                background: "var(--verde-mato)",
+                color: "white",
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+            }
+            }).fire({
+                icon: "success",
+                title: '<?= $_SESSION['success'] ?>'
+            });
+        <?php unset($_SESSION['success']); ?>
+        <?php endif; ?>
     </script>
 </body>
 </html>

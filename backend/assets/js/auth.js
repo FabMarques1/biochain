@@ -3,6 +3,7 @@ let user = document.getElementById('user');
 let password = document.getElementById('password');
 let fullName = document.getElementById('fullName');
 let email = document.getElementById('email');
+const termosCheck = document.getElementById('termos-check');
 
 const applyError = (input, message) => {
     input.classList.add('is-invalid');
@@ -80,11 +81,15 @@ function validateRegister(){
         return applyError(email, "Por favor, insira um endereço de email real.");
     }
 
-    if(!password.value) {
+    if (!password.value) {
         return applyError(password, "Insira sua senha.");
     }
-    else if(password.value.length <= 5) {
+    else if (password.value.length <= 5) {
         return applyError(password, "Sua senha deve ter no mínimo 6 caracteres.");
+    }
+
+    if (!termosCheck.checked) {
+        return applyError(termosCheck, "Você deve concordar com os termos de uso. Leia para saber mais.");
     }
 
 }

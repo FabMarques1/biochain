@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require "backend/config/database.php";
 
 ?>
@@ -25,12 +27,12 @@ require "backend/config/database.php";
                 </div>
                 <h1 class="register-title">Criar nova conta</h1>
                 <p class="register-subtitle">Preencha os dados abaixo para se cadastrar na plataforma</p>
-                <form id="registerForm" onsubmit="return validateRegister()" novalidate>
+                <form action="backend/src/regAuth.php" method="POST" id="registerForm" onsubmit="return validateRegister()" novalidate>
                     <div class="mb-3">
                         <label for="fullName" class="form-label">Nome Completo</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
-                            <input type="text" class="form-control" id="fullName" placeholder="Digite seu nome completo" minlength="8" maxlength="200" autocomplete="name" required>
+                            <input name="fullName" type="text" class="form-control" id="fullName" placeholder="Digite seu nome completo" minlength="8" maxlength="200" autocomplete="name" required>
                         </div>
                         <div class="char-counter"><span id="fullNameCount">0</span>/200 caracteres</div>
                     </div>
@@ -38,7 +40,7 @@ require "backend/config/database.php";
                         <label for="user" class="form-label">Nome de Usuario</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-person-badge-fill"></i></span>
-                            <input type="text" class="form-control" id="user" placeholder="Escolha um nome de usuario" minlength="8" maxlength="45" autocomplete="username" required>
+                            <input name="user" type="text" class="form-control" id="user" placeholder="Escolha um nome de usuario" minlength="8" maxlength="45" autocomplete="username" required>
                         </div>
                         <div class="char-counter"><span id="usernameCount">0</span>/45 caracteres</div>
                     </div>
@@ -46,7 +48,7 @@ require "backend/config/database.php";
                         <label for="email" class="form-label">E-mail</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
-                            <input type="email" class="form-control" id="email" placeholder="Digite seu melhor e-mail" minlength="8" maxlength="255" autocomplete="email" required>
+                            <input name="email" type="email" class="form-control" id="email" placeholder="Digite seu melhor e-mail" minlength="8" maxlength="255" autocomplete="email" required>
                         </div>
                         <div class="char-counter"><span id="emailCount">0</span>/255 caracteres</div>
                     </div>
@@ -54,7 +56,7 @@ require "backend/config/database.php";
                         <label for="password" class="form-label">Senha</label>
                         <div class="input-group position-relative">
                             <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-                            <input type="password" class="form-control pe-5" id="password" placeholder="Crie uma senha segura" minlength="6" maxlength="45" autocomplete="new-password" required>
+                            <input name="password" type="password" class="form-control pe-5" id="password" placeholder="Crie uma senha segura" minlength="6" maxlength="45" autocomplete="new-password" required>
                             <button type="button" class="password-toggle" onclick="togglePassword()">
                                 <i class="bi bi-eye" id="toggleIcon"></i>
                             </button>
@@ -62,7 +64,7 @@ require "backend/config/database.php";
                         <div class="char-counter"><span id="passwordCount">0</span>/45 caracteres</div>
                     </div>
                     <div class="form-check mb-4">
-                        <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                        <input id="termos-check" class="form-check-input" type="checkbox" id="termsCheck" required>
                         <label class="form-check-label" for="termsCheck">
                             Li e concordo com os <a href="#" class="link-verde">Termos de Uso</a> e <a href="#" class="link-verde">Politica de Privacidade</a>
                         </label>
@@ -128,6 +130,27 @@ require "backend/config/database.php";
         document.getElementById('password').addEventListener('input', function() {
             document.getElementById('passwordCount').textContent = this.value.length;
         });
+    </script>
+    <script>
+        <?php if(isset($_SESSION['error'])): ?>
+            Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                background: "var(--verde-mato)",
+                color: "white",
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+            }
+            }).fire({
+                icon: "error",
+                title: '<?= $_SESSION['error'] ?>'
+            });
+        <?php unset($_SESSION['error']); ?>
+        <?php endif; ?>
     </script>
 </body>
 </html>
