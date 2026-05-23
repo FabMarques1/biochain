@@ -109,9 +109,6 @@ function validateUpdate() {
     else if(user.value.length <= 7) {
         return applyError(user, "Seu nome de usuário ou email deve ter no mínimo 8 caracteres.");
     }
-    else if (!/^[A-Za-z0-9_.]+$/.test(user.value)) {
-        return applyError(user, "Seu nome de usuário só pode conter letras, números, '_' e '.'");
-    }
 
     if (!email.value) {
         return applyError(email, "Insira seu email.");

@@ -40,7 +40,7 @@ require "backend/config/database.php";
                         <label for="user" class="form-label">Nome de Usuario</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-person-badge-fill"></i></span>
-                            <input name="user" type="text" class="form-control" id="user" placeholder="Escolha um nome de usuario" minlength="8" maxlength="45" autocomplete="username" required>
+                            <input name="user" type="text" class="form-control" id="user" placeholder="Escolha um nome de usuario" minlength="8" maxlength="45" autocomplete="username" pattern="/^[A-Za-z0-9_.]+$/" required>
                         </div>
                         <div class="char-counter"><span id="usernameCount">0</span>/45 caracteres</div>
                     </div>
@@ -114,6 +114,32 @@ require "backend/config/database.php";
                 icon.classList.add('bi-eye');
             }
         }
+
+        document.getElementById('user').addEventListener("input", function () {
+            
+            this.value = this.value.replace(/[^a-zA-Z0-9_.]/g, "");
+            
+            if (this.value.endsWith(".") || this.value.endsWith("_")) {
+                this.value = this.value.slice(0, -1);
+
+                Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    background: "var(--verde-mato)",
+                    color: "white",
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                }
+                }).fire({
+                    icon: "error",
+                    title: 'Não é permitido: terminar com "_" e ".", caracteres especiais e espaços!'
+                });
+            }
+        });
 
         document.getElementById('fullName').addEventListener('input', function() {
             document.getElementById('fullNameCount').textContent = this.value.length;

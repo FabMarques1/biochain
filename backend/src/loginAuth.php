@@ -74,6 +74,7 @@ $_SESSION['user'] = $row['userprofile'];
 $_SESSION['email'] = $row['email'];
 $_SESSION['telefone'] = $row['phone'];
 $_SESSION['biografia'] = $row['biografia'];
+$_SESSION['photo'] = $row['icon'];
 $_SESSION['createdAt'] = $row['createdAt'];
 
 header("Location: ../../index.php");
