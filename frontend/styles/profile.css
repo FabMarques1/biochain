@@ -1,0 +1,1152 @@
+/*
+ * =====================================================================
+ * BioAlumnus — styles/profile.css
+ * Página de Perfil de Usuário
+ * Identidade visual 100% fiel ao index.css + colors.css do projeto
+ * =====================================================================
+ *
+ * Índice:
+ *   1. Variáveis CSS (:root)
+ *   2. Utilitários semânticos
+ *   3. Scrollbar customizada
+ *   4. Body e tipografia base
+ *   5. Navbar
+ *   6. Sidebar Desktop
+ *   7. Offcanvas Mobile
+ *   8. Layout wrapper
+ *   9. Hero do Perfil
+ *  10. Abas de navegação (Profile Tabs)
+ *  11. Seções e títulos
+ *  12. Cards de estatísticas
+ *  13. Timeline de atividade
+ *  14. Card de contato
+ *  15. Tag Cloud
+ *  16. Formulário (inputs, selects, textareas)
+ *  17. Botões (btn-verde, btn-outline-verde, btn-input-toggle)
+ *  18. Preferências (switches)
+ *  19. Zona de Perigo
+ *  20. Modal de exclusão
+ *  21. Footer
+ *  22. Estados de UI (loading, válido, inválido, desabilitado)
+ *  23. Microinterações / Transições
+ *  24. Responsividade
+ * =====================================================================
+ */
+
+
+/* =====================================================================
+   1. VARIÁVEIS CSS
+   Extraídas de colors.css e index.css — identidade visual idêntica
+   ===================================================================== */
+:root {
+    /* Paleta de verdes (do colors.css) */
+    --verde-mato:          #2d5a27;
+    --verde-mato-claro:    #3d7a35;
+    --verde-mato-escuro:   #1e3d1a;
+    --verde-destaque:      #4a9f42;
+    --verde-destaque-2:    #49d63c;
+
+    /* Fundos */
+    --fundo-principal:     #0d0d0d;
+    --fundo-card:          #1a1a1a;
+    --fundo-sidebar:       #141414;
+
+    /* Textos */
+    --texto-principal:     #e8e8e8;
+    --texto-secundario:    #a0a0a0;
+
+    /* Bordas */
+    --borda-sutil:         #2a2a2a;
+
+    /* Extras de perfil — derivados da paleta existente */
+    --perfil-overlay:      rgba(45, 90, 39, 0.12);
+    --perfil-glow:         rgba(74, 159, 66, 0.20);
+    --danger-color:        #dc3545;
+    --danger-muted:        rgba(220, 53, 69, 0.10);
+
+    /* Transição padrão (mesma do index.css) */
+    --transition-base:     all 0.2s ease;
+    --transition-slow:     all 0.3s ease;
+
+    /* Border-radius (mesmos do index.css) */
+    --radius-card:         12px;
+    --radius-sm:           8px;
+
+    /* Sombras (mesmas do index.css) */
+    --shadow-card-hover:   0 8px 25px rgba(45, 90, 39, 0.20);
+    --shadow-btn-hover:    0 4px 12px rgba(45, 90, 39, 0.40);
+}
+
+
+/* =====================================================================
+   2. UTILITÁRIOS SEMÂNTICOS
+   ===================================================================== */
+.text-principal    { color: var(--texto-principal) !important; }
+.text-secundario   { color: var(--texto-secundario) !important; }
+.text-destaque     { color: var(--verde-destaque) !important; }
+.text-danger-bio   { color: var(--danger-color) !important; }
+.required-mark     { color: var(--verde-destaque); font-weight: 700; }
+
+
+/* =====================================================================
+   3. SCROLLBAR CUSTOMIZADA (idêntica ao index.css)
+   ===================================================================== */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--verde-mato) var(--fundo-principal);
+}
+
+*::-webkit-scrollbar {
+    width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+    background: var(--fundo-principal);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--verde-mato);
+    border-radius: 4px;
+}
+
+
+/* =====================================================================
+   4. BODY E TIPOGRAFIA BASE
+   ===================================================================== */
+body {
+    background-color: var(--fundo-principal);
+    color: var(--texto-principal);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, p, span {
+    cursor: default;
+}
+
+
+/* =====================================================================
+   5. NAVBAR (idêntica ao index.css)
+   ===================================================================== */
+.navbar {
+    background-color: var(--fundo-sidebar) !important;
+    border-bottom: 2px solid var(--verde-mato);
+    box-shadow: 0 2px 15px rgba(45, 90, 39, 0.20);
+}
+
+.navbar-brand {
+    color: var(--verde-destaque) !important;
+    font-weight: 700;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.navbar-brand i {
+    font-size: 1.8rem;
+}
+
+.nav-link {
+    color: var(--texto-principal) !important;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--verde-destaque) !important;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: var(--verde-destaque);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+    width: 80%;
+}
+
+/* Avatar no navbar */
+.profile-avatar-nav {
+    width: 38px;
+    height: 38px;
+    object-fit: cover;
+    border: 2px solid var(--verde-mato);
+}
+
+.nav-username {
+    color: var(--texto-principal);
+}
+
+/* Dropdown do usuário */
+.custom-dropdown {
+    background-color: var(--fundo-card);
+    border: 1px solid var(--borda-sutil);
+    animation: 0.5s slidedown;
+}
+
+@keyframes slidedown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.custom-dropdown .dropdown-item {
+    color: var(--texto-principal);
+    transition: var(--transition-base);
+}
+
+.dropdown-toggle::after {
+    color: var(--verde-destaque);
+}
+
+.custom-dropdown .dropdown-item:hover {
+    background-color: var(--perfil-overlay) !important;
+    color: var(--verde-destaque) !important;
+}
+
+.custom-dropdown .item-danger {
+    color: var(--danger-color) !important;
+}
+
+.custom-divider {
+    border-color: var(--borda-sutil);
+}
+
+
+/* =====================================================================
+   6. SIDEBAR DESKTOP (idêntica ao index.css)
+   ===================================================================== */
+.sidebar {
+    background-color: var(--fundo-sidebar);
+    border-right: 1px solid var(--borda-sutil);
+    min-height: calc(100vh - 76px);
+    position: sticky;
+    top: 76px;
+    padding: 1.5rem 0;
+    overflow-y: auto;
+}
+
+.sidebar-title {
+    color: var(--verde-destaque);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.sidebar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-nav li a {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.25rem;
+    color: var(--texto-principal);
+    text-decoration: none;
+    transition: var(--transition-slow);
+    border-left: 3px solid transparent;
+}
+
+.sidebar-nav li a:hover,
+.sidebar-nav li a.active {
+    background-color: rgba(45, 90, 39, 0.15);
+    color: var(--verde-destaque);
+    border-left-color: var(--verde-destaque);
+}
+
+.sidebar-nav li a i {
+    font-size: 1.1rem;
+    width: 24px;
+    text-align: center;
+}
+
+
+/* =====================================================================
+   7. OFFCANVAS MOBILE (idêntico ao index.css)
+   ===================================================================== */
+.offcanvas {
+    background-color: var(--fundo-sidebar);
+}
+
+.offcanvas-header {
+    border-bottom: 1px solid var(--borda-sutil);
+}
+
+.offcanvas-title {
+    color: var(--verde-destaque);
+}
+
+.btn-close {
+    filter: invert(1);
+}
+
+.offcanvas-user-card {
+    background-color: rgba(45, 90, 39, 0.15);
+    border: 1px solid var(--borda-sutil);
+}
+
+.offcanvas-avatar {
+    width: 42px;
+    height: 42px;
+    object-fit: cover;
+    border: 2px solid var(--verde-mato);
+}
+
+
+/* =====================================================================
+   8. LAYOUT WRAPPER
+   ===================================================================== */
+.layout-wrapper {
+    margin-top: 76px; /* altura do navbar fixed */
+}
+
+.main-content {
+    padding: 2rem;
+    min-height: calc(100vh - 76px);
+}
+
+
+/* =====================================================================
+   9. HERO DO PERFIL
+   ===================================================================== */
+.profile-hero {
+    background-color: var(--fundo-card);
+    border: 1px solid var(--borda-sutil);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    margin-bottom: 1.75rem;
+    position: relative;
+}
+
+/* Faixa decorativa de capa */
+.profile-cover {
+    height: 120px;
+    background: linear-gradient(135deg, var(--verde-mato-escuro) 0%, var(--fundo-card) 100%);
+    border-bottom: 2px solid var(--verde-mato);
+    position: relative;
+}
+
+/* Detalhe decorativo — mesma técnica do .hero-section::before */
+.profile-cover::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -10%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(74, 159, 66, 0.12) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.profile-hero-body {
+    padding: 0 1.75rem 1.5rem;
+    position: relative;
+}
+
+
+
+/* Avatar principal */
+.profile-avatar-wrapper {
+    position: relative;
+    margin-top: -52px;
+    flex-shrink: 0;
+}
+
+.profile-avatar {
+    width: 104px;
+    height: 104px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--verde-mato);
+    box-shadow: 0 4px 16px rgba(45, 90, 39, 0.35);
+    background-color: var(--fundo-card);
+    display: block;
+}
+
+/* Indicador de status online */
+.profile-status-badge {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #22c55e;
+    border: 2px solid var(--fundo-card);
+}
+
+/* Nome e username */
+.profile-name {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--texto-principal);
+    margin: 0.5rem 0 0.1rem;
+    line-height: 1.2;
+}
+
+.profile-username {
+    color: var(--texto-secundario);
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* Badge de cargo */
+.profile-role-badge {
+    display: inline-flex;
+    align-items: center;
+    background-color: rgba(45, 90, 39, 0.25);
+    border: 1px solid var(--verde-mato);
+    color: var(--verde-destaque);
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 0.35rem 0.9rem;
+    border-radius: 100px;
+}
+
+
+/* =====================================================================
+   10. ABAS DE NAVEGAÇÃO — PROFILE TABS
+   ===================================================================== */
+.profile-tabs {
+    border-bottom: 2px solid var(--borda-sutil);
+    gap: 0.25rem;
+    flex-wrap: wrap;
+}
+
+.profile-tab-btn {
+    background: transparent;
+    border: 2px solid transparent;
+    border-bottom: none;
+    color: var(--texto-secundario);
+    padding: 0.65rem 1.25rem;
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: var(--transition-slow);
+    cursor: pointer;
+    position: relative;
+    bottom: -2px;
+}
+
+.profile-tab-btn:hover {
+    color: var(--verde-destaque);
+    background-color: var(--perfil-overlay);
+}
+
+.profile-tab-btn.active {
+    color: var(--verde-destaque);
+    background-color: var(--fundo-card);
+    border-color: var(--borda-sutil) var(--borda-sutil) var(--fundo-card);
+    border-bottom: 2px solid var(--fundo-card);
+}
+
+.profile-tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--verde-destaque);
+}
+
+
+/* =====================================================================
+   11. SEÇÕES E TÍTULOS
+   ===================================================================== */
+.profile-section {
+    margin-bottom: 2rem;
+}
+
+/* Reutilizando exatamente o .section-title do index.css */
+.section-title {
+    color: var(--texto-principal);
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.section-title i {
+    color: var(--verde-destaque);
+}
+
+.section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--verde-mato) 0%, transparent 100%);
+    margin-left: 1rem;
+}
+
+/* Título da zona de perigo — override de cor */
+.danger-title {
+    color: var(--danger-color);
+}
+
+.danger-title i {
+    color: var(--danger-color);
+}
+
+/* Reutilizando .content-article do index.css */
+.content-article {
+    background-color: var(--fundo-card);
+    border: 1px solid var(--borda-sutil);
+    border-radius: var(--radius-card);
+    padding: 1.5rem;
+    margin-bottom: 0;
+}
+
+.content-article p {
+    color: var(--texto-secundario);
+    line-height: 1.8;
+    text-align: left;
+}
+
+.content-article a {
+    color: var(--verde-destaque);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--verde-mato);
+    transition: var(--transition-slow);
+}
+
+.content-article a:hover {
+    color: var(--verde-mato-claro);
+    border-bottom-style: solid;
+}
+
+/* Info-box dentro do artigo (idêntico ao index.css) */
+.info-box {
+    background-color: rgba(45, 90, 39, 0.10);
+    border-left: 4px solid var(--verde-mato);
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0 0;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.info-box p {
+    margin: 0;
+    color: var(--texto-principal);
+    text-align: left;
+}
+
+
+/* =====================================================================
+   12. CARDS DE ESTATÍSTICAS (idêntico ao .stats-card do index.css)
+   ===================================================================== */
+.stats-card {
+    background-color: var(--fundo-card);
+    border: 1px solid var(--borda-sutil);
+    border-radius: var(--radius-card);
+    padding: 1.5rem 1rem;
+    text-align: center;
+    transition: var(--transition-slow);
+}
+
+.stats-card:hover {
+    border-color: var(--verde-mato);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card-hover);
+}
+
+.stats-card i {
+    font-size: 2rem;
+    color: var(--verde-destaque);
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+.stats-card h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--verde-destaque);
+    margin-bottom: 0.25rem;
+}
+
+.stats-card p {
+    color: var(--texto-secundario);
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+
+/* =====================================================================
+   13. TIMELINE DE ATIVIDADE
+   ===================================================================== */
+.activity-timeline {
+    padding: 0;
+}
+
+.activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--borda-sutil);
+    transition: var(--transition-base);
+}
+
+.activity-item:hover {
+    background-color: var(--perfil-overlay);
+}
+
+.activity-item--last {
+    border-bottom: none;
+}
+
+.activity-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1rem;
+}
+
+.activity-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.activity-text {
+    color: var(--texto-principal);
+    margin: 0 0 0.2rem;
+    font-size: 0.92rem;
+    line-height: 1.5;
+}
+
+.activity-time {
+    color: var(--texto-secundario);
+    font-size: 0.8rem;
+    display: block;
+}
+
+
+/* =====================================================================
+   14. CARD DE CONTATO
+   ===================================================================== */
+.contact-list {
+    padding: 0;
+}
+
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--borda-sutil);
+}
+
+.contact-item--last {
+    border-bottom: none;
+}
+
+.contact-icon {
+    font-size: 1.1rem;
+    color: var(--verde-destaque);
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+    width: 22px;
+    text-align: center;
+}
+
+.contact-label {
+    color: var(--texto-secundario);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 0.15rem;
+}
+
+.contact-value {
+    color: var(--verde-destaque);
+    font-size: 0.92rem;
+    text-decoration: none;
+    border-bottom: 1px dashed var(--verde-mato);
+    transition: var(--transition-slow);
+    word-break: break-all;
+}
+
+.contact-value:hover {
+    color: var(--verde-mato-claro);
+    border-bottom-style: solid;
+}
+
+span.contact-value {
+    color: var(--texto-principal);
+    border-bottom: none;
+    cursor: default;
+}
+
+
+/* =====================================================================
+   15. TAG CLOUD (idêntica ao index.css)
+   ===================================================================== */
+.tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tag-cloud .badge {
+    background-color: var(--fundo-card) !important;
+    border: 1px solid var(--verde-mato);
+    color: var(--verde-destaque);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: var(--transition-slow);
+    font-size: 0.82rem;
+}
+
+.tag-cloud .badge:hover {
+    background-color: var(--verde-mato) !important;
+    color: #fff;
+}
+
+
+/* =====================================================================
+   16. FORMULÁRIOS (inputs, selects, textareas — idênticos ao index.css)
+   ===================================================================== */
+.form-control,
+.form-select {
+    background-color: var(--fundo-card);
+    border: 1px solid var(--borda-sutil);
+    color: var(--texto-principal);
+    transition: var(--transition-base);
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: var(--fundo-card);
+    border-color: var(--verde-mato);
+    color: var(--texto-principal);
+    box-shadow: 0 0 0 0.2rem rgba(45, 90, 39, 0.25);
+}
+
+.form-control::placeholder {
+    color: var(--texto-secundario);
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+    background-color: rgba(26, 26, 26, 0.6);
+    color: var(--texto-secundario);
+    opacity: 0.75;
+    cursor: not-allowed;
+}
+
+/* Grupo de input com prefixo @ */
+.input-prefix {
+    background-color: var(--fundo-sidebar);
+    border: 1px solid var(--borda-sutil);
+    color: var(--verde-destaque);
+    font-weight: 600;
+}
+
+.form-label {
+    color: var(--texto-principal);
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    font-size: 0.92rem;
+}
+
+.form-text {
+    color: var(--texto-secundario);
+}
+
+/* Preview do avatar no formulário */
+.avatar-preview {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 2px solid var(--verde-mato);
+    border-radius: 50%;
+    background-color: var(--fundo-sidebar);
+    flex-shrink: 0;
+    transition: var(--transition-slow);
+}
+
+
+/* =====================================================================
+   17. BOTÕES
+   ===================================================================== */
+
+/* Botão primário — idêntico ao .btn-verde do index.css */
+.btn-verde {
+    background-color: var(--verde-mato);
+    border-color: var(--verde-mato);
+    color: #fff;
+    transition: var(--transition-slow);
+    font-weight: 500;
+}
+
+.btn-verde:hover,
+.btn-verde:focus-visible {
+    background-color: var(--verde-mato-claro);
+    border-color: var(--verde-mato-claro);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-btn-hover);
+}
+
+.btn-verde:active {
+    transform: translateY(0);
+}
+
+.btn-verde:disabled,
+.btn-verde.disabled {
+    background-color: var(--verde-mato);
+    border-color: var(--verde-mato);
+    opacity: 0.55;
+    transform: none;
+    cursor: not-allowed;
+}
+
+/* Botão outline — idêntico ao .btn-outline-verde do index.css */
+.btn-outline-verde {
+    border-color: var(--verde-mato);
+    color: var(--verde-destaque);
+    background: transparent;
+    transition: var(--transition-slow);
+    font-weight: 500;
+}
+
+.btn-outline-verde:hover,
+.btn-outline-verde:focus-visible {
+    background-color: var(--verde-mato);
+    border-color: var(--verde-mato);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.btn-outline-verde:active {
+    transform: translateY(0);
+}
+
+/* Botão de toggle de senha (olho) */
+.btn-input-toggle {
+    background-color: var(--fundo-sidebar);
+    border: 1px solid var(--borda-sutil);
+    border-left: none;
+    color: var(--texto-secundario);
+    transition: var(--transition-base);
+}
+
+.btn-input-toggle:hover {
+    color: var(--verde-destaque);
+    background-color: var(--fundo-card);
+}
+
+/* Botão salvar com estado de loading */
+.btn-save {
+    min-width: 160px;
+}
+
+
+/* =====================================================================
+   18. PREFERÊNCIAS — SWITCHES
+   ===================================================================== */
+.pref-item {
+    padding: 0.5rem 0;
+}
+
+.pref-label {
+    color: var(--texto-principal);
+    font-weight: 500;
+    font-size: 0.92rem;
+    display: block;
+    margin-bottom: 0.2rem;
+    cursor: pointer;
+}
+
+.pref-desc {
+    color: var(--texto-secundario);
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+.pref-divider {
+    border-color: var(--borda-sutil);
+    margin: 0.5rem 0;
+}
+
+/* Switch customizado mantendo o padrão Bootstrap + cor do site */
+.pref-switch {
+    background-color: var(--borda-sutil);
+    border-color: var(--borda-sutil);
+    width: 2.75em;
+    height: 1.5em;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.pref-switch:checked {
+    background-color: var(--verde-mato) !important;
+    border-color: var(--verde-mato) !important;
+}
+
+.pref-switch:focus {
+    box-shadow: 0 0 0 0.2rem rgba(45, 90, 39, 0.30);
+    border-color: var(--verde-mato);
+}
+
+
+/* =====================================================================
+   19. ZONA DE PERIGO
+   ===================================================================== */
+.danger-zone {
+    border-color: rgba(220, 53, 69, 0.30);
+}
+
+.danger-desc {
+    color: var(--texto-secundario);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.danger-action {
+    padding: 0.5rem 0;
+}
+
+.danger-divider {
+    border-color: var(--borda-sutil);
+    margin: 0.75rem 0;
+}
+
+.btn-outline-danger {
+    transition: var(--transition-slow);
+}
+
+.btn-outline-danger:hover {
+    transform: translateY(-1px);
+}
+
+
+/* =====================================================================
+   20. MODAL DE EXCLUSÃO
+   ===================================================================== */
+.delete-modal-content {
+    background-color: var(--fundo-card);
+    border: 1px solid var(--borda-sutil);
+    border-radius: var(--radius-card);
+}
+
+.delete-modal-header {
+    border-bottom: 1px solid var(--borda-sutil);
+}
+
+.delete-modal-header .modal-title {
+    color: var(--texto-principal);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.delete-modal-footer {
+    border-top: 1px solid var(--borda-sutil);
+}
+
+/* Backdrop escuro mais intenso para o modal de exclusão */
+.modal-backdrop.show {
+    opacity: 0.75;
+}
+
+
+/* =====================================================================
+   21. FOOTER (idêntico ao index.css)
+   ===================================================================== */
+footer {
+    background-color: var(--fundo-sidebar);
+    border-top: 2px solid var(--verde-mato);
+    padding: 2rem 0;
+}
+
+footer p {
+    color: var(--texto-secundario);
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+footer a {
+    color: var(--verde-destaque);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: var(--verde-mato-claro);
+}
+
+
+/* =====================================================================
+   22. ESTADOS DE UI
+   ===================================================================== */
+
+/* Válido */
+.form-control.is-valid {
+    border-color: var(--verde-destaque);
+    box-shadow: none;
+}
+
+.form-control.is-valid:focus {
+    border-color: var(--verde-destaque);
+    box-shadow: 0 0 0 0.2rem rgba(74, 159, 66, 0.25);
+}
+
+/* Inválido */
+.form-control.is-invalid {
+    border-color: var(--danger-color);
+    box-shadow: none;
+}
+
+.form-control.is-invalid:focus {
+    border-color: var(--danger-color);
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.invalid-feedback {
+    color: #f87171;
+    font-size: 0.82rem;
+}
+
+/* Estado desabilitado no grupo de input */
+.input-group .form-control:disabled + .btn-input-toggle {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+/* =====================================================================
+   23. MICROINTERAÇÕES / TRANSIÇÕES (mesmos efeitos do index.css)
+   ===================================================================== */
+
+/* Cards clicáveis com hover lift */
+.stats-card,
+.content-article,
+.activity-item,
+.contact-item {
+    transition: var(--transition-slow);
+}
+
+/* Tabs: transição suave de entrada */
+.tab-pane.fade {
+    transition: opacity 0.2s ease;
+}
+
+/* Foco visível para acessibilidade por teclado */
+:focus-visible {
+    outline: 2px solid var(--verde-destaque);
+    outline-offset: 2px;
+}
+
+/* Remover outline padrão ao usar mouse */
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+
+/* =====================================================================
+   24. RESPONSIVIDADE
+   ===================================================================== */
+
+/* ---- Tablet (≤ 991px) ---- */
+@media (max-width: 991.98px) {
+    .sidebar {
+        display: none; /* offcanvas substitui no mobile */
+    }
+
+    .main-content {
+        padding: 1.25rem 1rem;
+    }
+
+    .profile-hero-body {
+        padding: 0 1.25rem 1.25rem;
+    }
+
+    .profile-name {
+        font-size: 1.35rem;
+    }
+}
+
+/* ---- Mobile (≤ 767px) ---- */
+@media (max-width: 767.98px) {
+    .profile-cover {
+        height: 90px;
+    }
+
+    .profile-avatar {
+        width: 84px;
+        height: 84px;
+    }
+
+    .profile-avatar-wrapper {
+        margin-top: -42px;
+    }
+
+    .profile-role-badge {
+        font-size: 0.78rem;
+        padding: 0.3rem 0.75rem;
+    }
+
+    .stats-card {
+        padding: 1rem 0.75rem;
+    }
+
+    .stats-card h3 {
+        font-size: 1.5rem;
+    }
+
+    .stats-card i {
+        font-size: 1.5rem;
+    }
+
+    .profile-tab-btn {
+        font-size: 0.88rem;
+        padding: 0.55rem 0.9rem;
+    }
+}
+
+/* ---- Mobile pequeno (≤ 575px) ---- */
+@media (max-width: 575.98px) {
+    .main-content {
+        padding: 1rem 0.75rem;
+    }
+
+    .profile-name {
+        font-size: 1.2rem;
+    }
+
+    .content-article {
+        padding: 1.1rem;
+    }
+
+    .activity-item {
+        padding: 0.85rem 1rem;
+    }
+
+    .contact-item {
+        gap: 0.65rem;
+    }
+
+    .section-title::after {
+        display: none; /* linha decorativa removida em telas muito pequenas */
+    }
+}

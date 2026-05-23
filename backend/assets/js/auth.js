@@ -3,6 +3,7 @@ let user = document.getElementById('user');
 let password = document.getElementById('password');
 let fullName = document.getElementById('fullName');
 let email = document.getElementById('email');
+let biografia = document.getElementById('biografia');
 const termosCheck = document.getElementById('termos-check');
 
 const applyError = (input, message) => {
@@ -92,4 +93,37 @@ function validateRegister(){
         return applyError(termosCheck, "Você deve concordar com os termos de uso. Leia para saber mais.");
     }
 
+}
+
+function validateUpdate() {
+    if (!fullName.value) {
+        return applyError(fullName, "Insira seu nome completo.");
+    }
+    else if (fullName.value.length <= 7) {
+        return applyError(fullName, "Seu nome completo deve ter no mínimo 8 caracteres.");
+    }
+
+    if (!user.value) {
+        return applyError(user, "Insira seu nome de usuário ou email.");
+    } 
+    else if(user.value.length <= 7) {
+        return applyError(user, "Seu nome de usuário ou email deve ter no mínimo 8 caracteres.");
+    }
+    else if (!/^[A-Za-z0-9_.]+$/.test(user.value)) {
+        return applyError(user, "Seu nome de usuário só pode conter letras, números, '_' e '.'");
+    }
+
+    if (!email.value) {
+        return applyError(email, "Insira seu email.");
+    }
+    else if (email.value.length <= 7) {
+        return applyError(email, "Seu email deve ter no mínimo 8 caracteres.")
+    }
+    else if (!email.value.includes('@') || !email.value.includes('.')) {
+        return applyError(email, "Por favor, insira um endereço de email real.");
+    }
+
+    if (!biografia.value) {
+        return applyError(biografia, "Insira sua biografia.");
+    } 
 }
