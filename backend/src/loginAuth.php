@@ -26,7 +26,9 @@ $stmt = $conn->prepare(
         users.pass,
         users.biografia,
         users.icon,
-        users.createdAt
+        users.createdAt,
+        users.show_email,
+        users.show_profile
     FROM tbl_usuarios users
     LEFT JOIN tbl_telefone tel
     ON users.id = tel.phone
@@ -40,7 +42,9 @@ $stmt = $conn->prepare(
         users.pass,
         users.biografia,
         users.icon,
-        users.createdAt"
+        users.createdAt,
+        users.show_email,
+        users.show_profile"
 );
 $stmt->bind_param("s", $user);
 
@@ -81,6 +85,8 @@ $_SESSION['telefone'] = $row['phone'];
 $_SESSION['biografia'] = $row['biografia'];
 $_SESSION['photo'] = $row['icon'];
 $_SESSION['createdAt'] = $row['createdAt'];
+$_SESSION['show_email'] = $row['show_email'];
+$_SESSION['show_profile'] = $row['show_profile'];
 
 header("Location: ../../index.php");
 exit;

@@ -25,7 +25,9 @@ $query = $conn->prepare(
         GROUP_CONCAT(tel.phone SEPARATOR ', '),
         users.biografia,
         users.icon,
-        users.cargo
+        users.cargo,
+        users.show_email,
+        users.show_profile
     FROM tbl_usuarios users
     LEFT JOIN tbl_telefone tel
     ON users.id = tel.userprofile
@@ -36,7 +38,9 @@ $query = $conn->prepare(
         users.userprofile,
         users.email,
         users.icon,
-        users.cargo"
+        users.cargo,
+        users.show_email,
+        users.show_profile"
 );
 $query->bind_param("s", $user_name_url);
 $query->execute();
@@ -55,9 +59,12 @@ if($result->num_rows > 0){
     $user_bio = $row['biografia'];
     $user_photo_profile = $row['icon'];
     $cargo = $row['cargo'];
-}
 
-$query->close();
+    // PREFERÊNCIAS
+
+    $pref_show_email = $row['show_email'];
+    $pref_show_profile = $row['show_profile'];
+}
 
 if(!isset($_SESSION['auth'])){
     header("Location: login.php");
@@ -341,7 +348,8 @@ if(!isset($_SESSION['auth'])){
                             <?php endif; ?>
                         </ul>
                     </nav>
-
+                    
+                    <?php if($pref_show_profile != 0 || $user_id == $_SESSION['id']): ?>
                     <!-- ===== CONTEÚDO DAS ABAS ===== -->
                     <div class="tab-content" id="profileTabsContent">
 
@@ -402,43 +410,45 @@ if(!isset($_SESSION['auth'])){
                                 <div class="col-12 col-xl-4">
 
                                     <!-- Estatísticas -->
-                                    <section class="profile-section" aria-labelledby="stats-title">
-                                        <h2 class="section-title" id="stats-title">
-                                            <i class="bi bi-bar-chart-line" aria-hidden="true"></i>
-                                            Estatísticas
-                                        </h2>
-                                        <div class="row g-3" role="list" aria-label="Métricas do perfil">
-                                            <div class="col-6" role="listitem">
-                                                <article class="stats-card" aria-label="Artigos publicados">
-                                                    <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
-                                                    <h3 aria-label="24 artigos">24</h3>
-                                                    <p>Artigos</p>
-                                                </article>
+                                    <?php if($cargo > 1): ?>
+                                        <section class="profile-section" aria-labelledby="stats-title">
+                                            <h2 class="section-title" id="stats-title">
+                                                <i class="bi bi-bar-chart-line" aria-hidden="true"></i>
+                                                Estatísticas
+                                            </h2>
+                                            <div class="row g-3" role="list" aria-label="Métricas do perfil">
+                                                <div class="col-6" role="listitem">
+                                                    <article class="stats-card" aria-label="Artigos publicados">
+                                                        <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                                                        <h3 aria-label="24 artigos">24</h3>
+                                                        <p>Artigos</p>
+                                                    </article>
+                                                </div>
+                                                <div class="col-6" role="listitem">
+                                                    <article class="stats-card" aria-label="Visualizações totais">
+                                                        <i class="bi bi-eye" aria-hidden="true"></i>
+                                                        <h3 aria-label="3.412 visualizações">3.4k</h3>
+                                                        <p>Visualizações</p>
+                                                    </article>
+                                                </div>
+                                                <div class="col-6" role="listitem">
+                                                    <article class="stats-card" aria-label="Edições realizadas">
+                                                        <i class="bi bi-pencil-square" aria-hidden="true"></i>
+                                                        <h3 aria-label="87 edições">87</h3>
+                                                        <p>Edições</p>
+                                                    </article>
+                                                </div>
+                                                <div class="col-6" role="listitem">
+                                                    <article class="stats-card" aria-label="Avaliação média">
+                                                        <i class="bi bi-star-half" aria-hidden="true"></i>
+                                                        <h3 aria-label="4.8 estrelas">4.8</h3>
+                                                        <p>Avaliação</p>
+                                                    </article>
+                                                </div>
                                             </div>
-                                            <div class="col-6" role="listitem">
-                                                <article class="stats-card" aria-label="Visualizações totais">
-                                                    <i class="bi bi-eye" aria-hidden="true"></i>
-                                                    <h3 aria-label="3.412 visualizações">3.4k</h3>
-                                                    <p>Visualizações</p>
-                                                </article>
-                                            </div>
-                                            <div class="col-6" role="listitem">
-                                                <article class="stats-card" aria-label="Edições realizadas">
-                                                    <i class="bi bi-pencil-square" aria-hidden="true"></i>
-                                                    <h3 aria-label="87 edições">87</h3>
-                                                    <p>Edições</p>
-                                                </article>
-                                            </div>
-                                            <div class="col-6" role="listitem">
-                                                <article class="stats-card" aria-label="Avaliação média">
-                                                    <i class="bi bi-star-half" aria-hidden="true"></i>
-                                                    <h3 aria-label="4.8 estrelas">4.8</h3>
-                                                    <p>Avaliação</p>
-                                                </article>
-                                            </div>
-                                        </div>
-                                    </section>
-
+                                        </section>
+                                    <?php endif; ?>
+                                    
                                     <!-- Informações de Contato -->
                                     <section class="profile-section" aria-labelledby="contact-title">
                                         <h2 class="section-title" id="contact-title">
@@ -451,7 +461,11 @@ if(!isset($_SESSION['auth'])){
                                                     <i class="bi bi-envelope-fill contact-icon" aria-hidden="true"></i>
                                                     <div>
                                                         <small class="contact-label">E-mail</small>
-                                                        <a href="mailto:<?php echo $user_email_profile; ?>" class="contact-value d-block"><?php echo $user_email_profile; ?></a>
+                                                        <?php if($pref_show_email === 1): ?>
+                                                            <a href="mailto:<?php echo $user_email_profile; ?>" class="contact-value d-block"><?php echo $user_email_profile; ?></a>
+                                                        <?php else: ?>
+                                                            <a class="contact-value d-block"><i>Privado...</i></a>
+                                                        <?php endif; ?>
                                                     </div>
                                                 </li>
                                                 <li class="contact-item">
@@ -460,7 +474,7 @@ if(!isset($_SESSION['auth'])){
                                                         <small class="contact-label">Telefone</small>
                                                         <a href="#" class="contact-value d-block">
                                                             <?php 
-                                                                if(empty($user_tel_profile))
+                                                                if(!isset($user_tel_profile))
                                                                     echo "Não possui número...";
                                                                 else
                                                                     echo $user_tel_profile;
@@ -475,13 +489,6 @@ if(!isset($_SESSION['auth'])){
                                                         <span class="contact-value d-block">São Paulo, SP — Brasil</span>
                                                     </div>
                                                 </li>
-                                                <li class="contact-item contact-item--last">
-                                                    <i class="bi bi-link-45deg contact-icon" aria-hidden="true"></i>
-                                                    <div>
-                                                        <small class="contact-label">Website</small>
-                                                        <a href="#" class="contact-value d-block" target="_blank" rel="noopener noreferrer"></a>
-                                                    </div>
-                                                </li>
                                             </ul>
                                         </div>
                                     </section>
@@ -494,9 +501,27 @@ if(!isset($_SESSION['auth'])){
                                         </h2>
                                         <div class="tag-cloud" role="list" aria-label="Áreas de interesse">
                                             <?php if(contar("tbl_usuarios_has_tbl_interesses", "tbl_usuarios_id", $user_id) < 1): ?>
-                                                <span class="badge" role="listitem">Não há interesses...</span>
+                                                <spam role="listitem"><i>Não há interesses...</i></span>
                                             <?php else: ?>
-                                                <span class="badge" role="listitem">Taxonomia</span>
+                                                <?php 
+                                                
+                                                $query = $conn->prepare(
+                                                    "SELECT I.name
+                                                    FROM tbl_usuarios_has_tbl_interesses UI
+                                                    JOIN tbl_interesses I
+                                                    ON UI.tbl_interesses_id = I.id
+                                                    WHERE tbl_usuarios_id = ?"
+                                                );
+                                                $query->bind_param("i", $user_id);
+                                                $query->execute();
+
+                                                $result = $query->get_result();
+
+                                                ?>
+                                            
+                                                <?php while($row = $result->fetch_assoc()): ?>
+                                                    <span class="badge" role="listitem"><?php echo $row['name']; ?></span>
+                                                <?php endwhile; ?>
                                             <?php endif; ?>
                                         </div>
                                     </section>
@@ -754,44 +779,49 @@ if(!isset($_SESSION['auth'])){
                                                 <legend class="visually-hidden">E-mail visível para todos os usuários</legend>
 
                                                 <!-- Toggle: Email público -->
-                                                <div class="pref-item d-flex justify-content-between align-items-start gap-3">
-                                                    <div>
-                                                        <label for="pref-email-notif" class="pref-label">E-mail público</label>
-                                                        <p class="pref-desc mb-0">Permita que alunos e tutores vejam seu e-mail.</p>
+                                                <form method="POST" action="backend/src/preferences.php">
+                                                    <div class="pref-item d-flex justify-content-between align-items-start gap-3">
+                                                        <div>
+                                                            <label for="pref-email-notif" class="pref-label">E-mail público</label>
+                                                            <p class="pref-desc mb-0">Permita que alunos e tutores vejam seu e-mail.</p>
+                                                        </div>
+                                                        <div class="form-check form-switch mt-1 flex-shrink-0">
+                                                            <input
+                                                                class="form-check-input pref-switch"
+                                                                type="checkbox"
+                                                                id="pref-email-vis"
+                                                                name="email_visible"
+                                                                role="switch"
+                                                                value=<?php echo $pref_show_email; ?>
+                                                                <?= $pref_show_email ? 'checked' : '' ?>
+                                                            >
+                                                        </div>
                                                     </div>
-                                                    <div class="form-check form-switch mt-1 flex-shrink-0">
-                                                        <input
-                                                            class="form-check-input pref-switch"
-                                                            type="checkbox"
-                                                            id="pref-email-notif"
-                                                            name="email_notifications"
-                                                            checked
-                                                            role="switch"
-                                                            aria-checked="true"
-                                                        >
-                                                    </div>
-                                                </div>
 
-                                                <hr class="pref-divider">
+                                                    <hr class="pref-divider">
 
-                                                <!-- Toggle: Perfil público -->
-                                                <div class="pref-item d-flex justify-content-between align-items-start gap-3">
-                                                    <div>
-                                                        <label for="pref-public-profile" class="pref-label">Perfil Público</label>
-                                                        <p class="pref-desc mb-0">Permite que outros usuários visualizem seu perfil e artigos. <i>(Desabilitado para tutores)</i></p>
+                                                    <!-- Toggle: Perfil público -->
+                                                    <div class="pref-item d-flex justify-content-between align-items-start gap-3">
+                                                        <div>
+                                                            <label for="pref-public-profile" class="pref-label">Perfil Público</label>
+                                                            <p class="pref-desc mb-0">Permite que outros usuários visualizem seu perfil e artigos. <i>(Desabilitado para tutores)</i></p>
+                                                        </div>
+                                                        <div class="form-check form-switch mt-1 flex-shrink-0">
+                                                            <input
+                                                                class="form-check-input pref-switch"
+                                                                type="checkbox"
+                                                                id="pref-public-profile"
+                                                                name="pref_profile"
+                                                                role="switch"
+                                                                value=<?php echo $pref_show_profile; ?>
+                                                                <?= $pref_show_profile ? 'checked' : '' ?>
+                                                            >
+                                                        </div>
                                                     </div>
-                                                    <div class="form-check form-switch mt-1 flex-shrink-0">
-                                                        <input
-                                                            class="form-check-input pref-switch"
-                                                            type="checkbox"
-                                                            id="pref-public-profile"
-                                                            name="public_profile"
-                                                            checked
-                                                            role="switch"
-                                                            aria-checked="true"
-                                                        >
-                                                    </div>
-                                                </div>
+                                                    <button type="submit" class="btn btn-verde" aria-label="Confirmar alteração de senha">
+                                                        <i class="bi bi-shield-lock me-2" aria-hidden="true"></i>Salvar configurações
+                                                    </button>
+                                                </form>
                                             </fieldset>
                                         </div>
                                     </section>
@@ -828,6 +858,15 @@ if(!isset($_SESSION['auth'])){
 
                     </div>
                     <!-- /tab-content -->
+                    <?php else: ?>
+                        <div class="d-flex flex-column flex-sm-row align-items-center align-items-sm-end gap-3 mb-3">
+                            <div class="profile-info flex-grow-1 text-center mt-4 mb-1">
+                                <i style="color: var(--verde-destaque); font-size: 50px;" class="bi bi-file-earmark-lock2-fill"></i>
+                                <h1 class="profile-name mb-2">Este perfil é privado!</h1>
+                                <p class="profile-username"><i>O perfil que você procurou se encontra na sua toca no momento...</i></p>
+                            </div>
+                        </div>
+                    <?php endif; ?>
 
                 </main>
                 <!-- /main -->
@@ -891,10 +930,12 @@ if(!isset($_SESSION['auth'])){
             </div>
         </div>
 
+        <script src="preferences.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="backend/assets/js/auth.js"></script>
         <script src="https://unpkg.com/imask"></script>
         <!-- ===================== JS: Microinterações e UI ===================== -->
+        
         <script>
             /* ---------- Toggle visibilidade de senha ---------- */
             function togglePassword(inputId, btn) {
@@ -1005,6 +1046,7 @@ if(!isset($_SESSION['auth'])){
             )
 
         </script>
+
     <?php else: ?>
         <div class="d-flex flex-column flex-sm-row align-items-center align-items-sm-end gap-3 mb-3">
             <div class="profile-info flex-grow-1 text-center mt-4 mb-1">
