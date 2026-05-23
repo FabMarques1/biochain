@@ -11,7 +11,6 @@ if(!isset($_GET['id']) || empty($_GET['id'])){
 
 $user_name = $_SESSION['username'];
 $user_profile = $_SESSION['user'];
-$user_bio = $_SESSION['biografia'];
 $user_id = $_GET['id'];
 
 $query = $conn->prepare(
@@ -44,11 +43,13 @@ if(isset($_SESSION['auth']) && $user_id == $_SESSION['id']){
     $user_name_profile = $_SESSION['username'];
     $user_tag_profile = $_SESSION['user'];
     $user_email_profile = $_SESSION['email'];
+    $user_bio = $_SESSION['biografia'];
     $cargo = $_SESSION['cargo'];
 } else if(contar("tbl_usuarios", "id", $user_id) > 0){
     $user_name_profile = $row['username'];
     $user_tag_profile = $row['userprofile'];
     $user_email_profile = $row['email'];
+    $user_bio = $row['biografia'];
     $cargo = $row['cargo'];
 }
 
@@ -179,7 +180,7 @@ if(!isset($_SESSION['auth'])){
                 <!-- Usuário no mobile -->
                 <div class="d-flex align-items-center mb-3 p-2 rounded offcanvas-user-card">
                     <img
-                        src="frontend/assets/icons/incognito.svg"
+                        src="<?php echo $user_photo; ?>"
                         alt="Foto de perfil"
                         class="rounded-circle me-2 offcanvas-avatar"
                     >
