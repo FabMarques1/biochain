@@ -183,17 +183,17 @@ if(!isset($_SESSION['auth'])){
             <div class="p-3">
                 <!-- Usuário no mobile -->
                 <a href="profile.php?user=<?php echo $user_profile; ?>">
-                <div class="d-flex align-items-center mb-3 p-2 rounded offcanvas-user-card">
-                    <img
-                        src="<?php echo $user_photo; ?>"
-                        alt="Foto de perfil"
-                        class="rounded-circle me-2 offcanvas-avatar"
-                    >
-                    <div>
-                        <span class="d-block fw-semibold text-principal"><?php echo $user_name; ?></span>
-                        <small class="text-secundario"><?php echo $user_profile; ?></small>
+                    <div class="d-flex align-items-center mb-3 p-2 rounded offcanvas-user-card">
+                        <img
+                            src="<?php echo $user_photo; ?>"
+                            alt="Foto de perfil"
+                            class="rounded-circle me-2 offcanvas-avatar"
+                        >
+                        <div>
+                            <span class="d-block fw-semibold text-principal"><?php echo $user_name; ?></span>
+                            <small class="text-secundario"><?php echo $user_profile; ?></small>
+                        </div>
                     </div>
-                </div>
                 </a>
                 <input class="form-control mb-3" type="search" placeholder="Buscar na wiki..." aria-label="Buscar">
             </div>
