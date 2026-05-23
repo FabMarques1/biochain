@@ -40,19 +40,11 @@ $row = $result->fetch_assoc();
 
 $user_tel_profile = "indefinido";
 
-if(isset($_SESSION['auth']) && $user_id == $_SESSION['id']){
-    $user_name_profile = $_SESSION['username'];
-    $user_tag_profile = $_SESSION['user'];
-    $user_email_profile = $_SESSION['email'];
-    $user_bio = $_SESSION['biografia'];
-    $cargo = $_SESSION['cargo'];
-} else if(contar("tbl_usuarios", "id", $user_id) > 0){
-    $user_name_profile = $row['username'];
-    $user_tag_profile = $row['userprofile'];
-    $user_email_profile = $row['email'];
-    $user_bio = $row['biografia'];
-    $cargo = $row['cargo'];
-}
+$user_name_profile = $row['username'];
+$user_tag_profile = $row['userprofile'];
+$user_email_profile = $row['email'];
+$user_bio = $row['biografia'];
+$cargo = $row['cargo'];
 
 $query->close();
 
