@@ -115,32 +115,6 @@ require "backend/config/database.php";
             }
         }
 
-        document.getElementById('user').addEventListener("input", function () {
-            
-            this.value = this.value.replace(/[^a-zA-Z0-9_.]/g, "");
-            
-            if (this.value.endsWith(".") || this.value.endsWith("_")) {
-                this.value = this.value.slice(0, -1);
-
-                Swal.mixin({
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    background: "var(--verde-mato)",
-                    color: "white",
-                    didOpen: (toast) => {
-                        toast.onmouseenter = Swal.stopTimer;
-                        toast.onmouseleave = Swal.resumeTimer;
-                }
-                }).fire({
-                    icon: "error",
-                    title: 'Não é permitido: terminar com "_" e ".", caracteres especiais e espaços!'
-                });
-            }
-        });
-
         document.getElementById('fullName').addEventListener('input', function() {
             document.getElementById('fullNameCount').textContent = this.value.length;
         });
