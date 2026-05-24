@@ -2,6 +2,9 @@
 
 session_start();
 
+$autor = $_GET['author'];
+$artigo = $_GET['article'];
+
 if(isset($_SESSION['auth'])){
     $user_name = $_SESSION['username'];
     $user_profile = $_SESSION['user'];
@@ -23,7 +26,7 @@ if(isset($_SESSION['auth'])){
     <title>Título do Artigo - BioAlumnus</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="frontend/styles/index.css">
+    <link rel="stylesheet" href="frontend/styles/index.css?">
     <link rel="icon" href="frontend/assets/icons/icon.png">
 </head>
 <body>
