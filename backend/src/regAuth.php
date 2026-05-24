@@ -11,11 +11,15 @@ $email = strtolower(trim($_POST['email']));
 $password = $_POST['password'];
 
 if(empty($fullName) || empty($user) || empty($email) || empty($password)){
-
+    $_SESSION['error'] = "Preencha seus dados.";
+    header("Location: ../../registro.php");
+    exit;
 }
 
-if(strlen($fullName) <= 8 || strlen($user) <= 8 || strlen($password) <= 6) {
-
+if(strlen($fullName) < 8 || strlen($user) < 8 || strlen($password) < 6) {
+    $_SESSION['error'] = "Verifique a quantidade de caracteres.";
+    header("Location: ../../registro.php");
+    exit;
 }
 
 if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
@@ -51,6 +55,7 @@ if ($result->num_rows > 0) {
     
     if($query->execute()){
         $_SESSION['success'] = "Registro feito com sucesso!";
+        header("Location: ../../login.php");
         exit;
     } else{
         echo "Erro interno ao cadastrar.";
