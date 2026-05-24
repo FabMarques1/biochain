@@ -1,5 +1,5 @@
 <?php
-
+// me demite então
 session_start();
 
 require_once "../config/database.php";
