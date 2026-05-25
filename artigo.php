@@ -157,7 +157,6 @@ if(isset($_SESSION['auth'])){
                                 </div>
                             </div>
                             <span class="meta-item"><i class="bi bi-calendar3"></i> Data</span>
-                            <span class="meta-item"><i class="bi bi-clock"></i> Tempo de leitura</span>
                             <span class="meta-item"><i class="bi bi-eye"></i> Quantidade de Leituras</span>
                         </div>
                     </header>
@@ -165,31 +164,32 @@ if(isset($_SESSION['auth'])){
                     <!-- Layout do artigo: corpo + TOC -->
                     <div class="article-layout">
                         <div>
-                            <article class="article-body" id="articleBody" tabindex="0" aria-label="Conteúdo do artigo">
+                            <div class="article-body" id="articleBody" tabindex="0" aria-label="Conteúdo do artigo">
 
-                                <p class="lead">oi</p>
+                                <p class="lead">E se eu pudessepneumultramicroscopicosilivoculcanocanioticosililactobailiosvivos</p>
+                                <p></p>
 
-                            </article>
+                            </div>
 
                             <!-- Ações: curtir, salvar, compartilhar, comentar -->
                             <div class="article-actions" aria-label="Ações do artigo">
-                                <div class="actions-group">
-                                    <button type="button" class="action-btn" id="likeBtn" aria-pressed="false">
-                                        <i class="bi bi-heart"></i>
-                                        <span><span id="likeCount">quantia</span> curtidas</span>
-                                    </button>
-                                    <button type="button" class="action-btn" id="bookmarkBtn" aria-pressed="false">
-                                        <i class="bi bi-bookmark"></i> Salvar
-                                    </button>
-                                    <a href="#comentarios" class="action-btn">
-                                        <i class="bi bi-chat-dots"></i> <span id="commentCountTop">3</span> comentários
-                                    </a>
-                                </div>
-                                <div class="actions-group">
-                                    <button type="button" class="action-btn" id="shareBtn">
-                                        <i class="bi bi-share"></i> Compartilhar
-                                    </button>
-                                </div>
+
+                                    <div class="actions-group">
+                                        <button type="button" class="action-btn " id="likeBtn" aria-pressed="false">
+                                            <i class="bi bi-heart"></i>
+                                            <span id="likeCount">?</span>
+                                        </button>
+                                        <button type="button" class="action-btn " id="bookmarkBtn" aria-pressed="false">
+                                            <i class="bi bi-bookmark"></i>
+                                        </button>
+                                        <a href="#comentarios" class="action-btn ">
+                                            <i class="bi bi-chat-dots"></i> <span id="commentCountTop">?</span>
+                                        </a>
+                                        <button type="button" class="action-btn " id="shareBtn">
+                                            <i class="bi bi-share"></i>
+                                        </button>
+                                    </div>
+
                             </div>
 
                             <!-- Comentários -->
@@ -215,7 +215,8 @@ if(isset($_SESSION['auth'])){
                                     <div class="comment">
                                         <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop&crop=face" class="avatar" alt="Ana M.">
                                         <div class="flex-grow-1">
-                                            <div class="meta"><span class="author">Nome de quem comentou</span> · <span>há quantia de dias que comentou</span></div>
+                                            <div class="meta"><span class="author">Nome de quem comentou</span></div>
+                                            <div class="meta"><span>há quantia de dias que comentou</span></div>
                                             <div class="body">Comentário</div>
                                             <div class="reply-actions">
                                                 <button type="button"><i class="bi bi-heart"></i> curtidas</button>
